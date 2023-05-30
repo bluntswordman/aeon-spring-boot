@@ -9,6 +9,7 @@ import com.finalaeonproject.entity.Karyawan;
 import com.finalaeonproject.repository.AccountRepository;
 import com.finalaeonproject.repository.DetailKaryawanRepository;
 import com.finalaeonproject.repository.KaryawanRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -50,9 +51,13 @@ public class KaryawanService {
     return modelMapper.map(karyawanRepository.save(karyawan), KaryawanResponse.class);
   }
 
-  public KaryawanResponse update(Long id, KaryawanResponse karyawanRequest) {
+  public KaryawanResponse update(Long id, KaryawanResponse karyawanRequest, HttpServletRequest request) {
     Karyawan karyawan = karyawanRepository.findById(id).orElse(null);
     if (karyawan == null) {
+      return null;
+    }
+
+    if (karyawan.getId() != getKaryawanProfile(request).getId()) {
       return null;
     }
 
@@ -91,7 +96,7 @@ public class KaryawanService {
     }
 
     authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
     );
 
     var token = jwtService.generateToken(accountRepository.findByUsername(request.getUsername()).get());
@@ -100,5 +105,25 @@ public class KaryawanService {
     }
 
     return AuthResponse.builder().token(token).build();
+  }
+
+  public Karyawan getKaryawanProfile(HttpServletRequest request) {
+    String token = extractTokenFromRequest(request);
+    if (token != null && jwtService.isTokenValid(token)) {
+      String username = jwtService.extractUsername(token);
+      return karyawanRepository.findByAccountUsername(username).orElse(null);
+    }
+
+    return null;
+  }
+
+  private String extractTokenFromRequest(HttpServletRequest request) {
+    String authorizationHeader = request.getHeader("Authorization");
+
+    if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+      return authorizationHeader.substring(7);
+    }
+
+    return null;
   }
 }
