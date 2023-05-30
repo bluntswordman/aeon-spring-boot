@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://aeon-db-server.postgres.database.azure.com:5432/aeon_db
-    username: azureaeonadmin@aeon-db-server
-    password: @eoN1015
+    url: jdbc:postgresql://containers-us-west-137.railway.app:6932/railway
+    username: postgres
+    password: 4jgZyoiZewJaWx1aEkUV
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
