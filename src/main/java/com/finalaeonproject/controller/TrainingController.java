@@ -3,11 +3,11 @@ package com.finalaeonproject.controller;
 import com.finalaeonproject.dto.TrainingDTO;
 import com.finalaeonproject.service.TrainingService;
 import com.finalaeonproject.util.Response;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +16,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/training")
 @RequiredArgsConstructor
+@Validated
 public class TrainingController {
   private final TrainingService trainingService;
 
   @PostMapping
-  public ResponseEntity<Response<TrainingDTO>> insert(@RequestBody @Valid TrainingDTO trainingDTO, Errors errors) {
+  public ResponseEntity<Response<TrainingDTO>> insert(@Validated @RequestBody TrainingDTO trainingDTO, Errors errors) {
     if (errors.hasErrors()) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response<>(false, "Bad Request", null));
     }
@@ -29,7 +30,7 @@ public class TrainingController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Response<TrainingDTO>> update(@PathVariable Long id, @RequestBody @Valid TrainingDTO trainingDTO, Errors errors) {
+  public ResponseEntity<Response<TrainingDTO>> update(@PathVariable Long id,@Validated @RequestBody TrainingDTO trainingDTO, Errors errors) {
     if (errors.hasErrors()) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response<>(false, "Bad Request", null));
     }
