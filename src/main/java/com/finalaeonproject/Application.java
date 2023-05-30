@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 @OpenAPIDefinition(
     info = @Info(
-        title = "Final - AEON Credit Service Indonesia"
+        title = "AEON Credit Service Indonesia"
     )
 )
 @EnableJpaAuditing
