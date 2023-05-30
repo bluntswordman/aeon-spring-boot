@@ -7,11 +7,11 @@ import com.finalaeonproject.dto.KaryawanResponse;
 import com.finalaeonproject.service.KaryawanService;
 import com.finalaeonproject.util.Response;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,11 +20,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/karyawan")
 @RequiredArgsConstructor
+@Validated
 public class KaryawanController {
   private final KaryawanService karyawanService;
 
   @PostMapping
-  public ResponseEntity<Response<KaryawanResponse>> register(@RequestBody @Valid KaryawanRequest karyawanRequest, Errors errors) {
+  public ResponseEntity<Response<KaryawanResponse>> register(@Validated @RequestBody KaryawanRequest karyawanRequest, Errors errors) {
     if (errors.hasErrors()) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response<>(false, "Bad Request", null));
     }
@@ -38,7 +39,7 @@ public class KaryawanController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Response<KaryawanResponse>> updateKaryawan(@PathVariable("id") Long id, @RequestBody @Valid KaryawanResponse karyawanRequest, Errors errors, HttpServletRequest request) {
+  public ResponseEntity<Response<KaryawanResponse>> updateKaryawan(@PathVariable("id") Long id,@Validated @RequestBody KaryawanResponse karyawanRequest, Errors errors, HttpServletRequest request) {
     if (errors.hasErrors()) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response<>(false, "Bad Request", null));
     }
