@@ -6,6 +6,7 @@ import com.finalaeonproject.dto.KaryawanRequest;
 import com.finalaeonproject.dto.KaryawanResponse;
 import com.finalaeonproject.service.KaryawanService;
 import com.finalaeonproject.util.Response;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,11 +28,17 @@ public class KaryawanController {
     if (errors.hasErrors()) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response<>(false, "Bad Request", null));
     }
-    return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>(true, "Karyawan Created", karyawanService.register(karyawanRequest)));
+
+    KaryawanResponse karyawan = karyawanService.register(karyawanRequest);
+    if (karyawan == null) {
+      return ResponseEntity.status(HttpStatus.CONFLICT).body(new Response<>(false, "Username Already Exists", null));
+    }
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>(true, "Karyawan Created", karyawan));
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Response<KaryawanResponse>> updateKaryawan(@PathVariable("id") Long id, @RequestBody @Valid KaryawanResponse karyawanRequest, Errors errors) {
+  public ResponseEntity<Response<KaryawanResponse>> updateKaryawan(@PathVariable("id") Long id, @RequestBody @Valid KaryawanResponse karyawanRequest, Errors errors, HttpServletRequest request) {
     if (errors.hasErrors()) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response<>(false, "Bad Request", null));
     }
@@ -41,7 +48,12 @@ public class KaryawanController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(false, "Karyawan Not Found", null));
     }
 
-    return ResponseEntity.status(HttpStatus.OK).body(new Response<>(true, "Karyawan Updated", karyawanService.update(id, karyawanRequest)));
+    KaryawanResponse updatedKaryawan = karyawanService.update(id, karyawanRequest, request);
+    if (updatedKaryawan == null) {
+      return ResponseEntity.status(HttpStatus.CONFLICT).body(new Response<>(false, "Id you entered is not yours", null));
+    }
+
+    return ResponseEntity.status(HttpStatus.OK).body(new Response<>(true, "Karyawan Updated", updatedKaryawan));
   }
 
   @GetMapping("/search")

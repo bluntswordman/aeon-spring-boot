@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://containers-us-west-137.railway.app:6932/railway
-    username: postgres
-    password: 4jgZyoiZewJaWx1aEkUV
+    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
