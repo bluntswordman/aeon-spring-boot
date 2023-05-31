@@ -1,0 +1,807 @@
+{
+	"info": {
+		"_postman_id": "6a1367e9-41a8-4174-9149-228ee4659253",
+		"name": "UNIT TEST AEON",
+		"description": "# 🧪 Get started here\n\nThis template helps ensure your API continues to work as expected after updates or changes. It contains sample requests for a series of tests that validate different aspects of an API, including:\n\n1. **Status code verification:** We'll check if the API returns the expected status codes for various requests, ensuring reliability and proper error handling.\n2. **JSON schema verification:** We'll make sure the JSON response conforms to a specified JSON Schema, ensuring API contracts are honored.\n3. **Response time verification:** We'll verify that the API's response time is within the acceptable range, providing a smooth user experience and optimizing performance.\n4. **Response body verification:** We'll validate the structure and content of the response body for accuracy, ensuring the integrity of the data and preventing potential issues downstream.\n5. **Header verification:** We'll confirm the presence and correct values of specific headers in the response, enabling secure and well-structured communication between your app and its users.\n    \n\n## 🔖 **How to use this template**\n\n**Step 1:** Send the sample requests and view the response and test results.\n\n**Step 2:** Replace the sample request URLs with your desired API endpoints.\n\n**Step 3:** Customize the tests in the \"Tests\" tab if needed. Don't forget to save your changes.\n\n**Step 4:** Run the collection by selecting \"Run\".\n\n<img src=\"https://content.pstmn.io/666cfa65-6e00-4308-871b-f831128bc0ac/Y29sbGVjdGlvbi1ydW5uZXItYnV0dG9uLmpwZWc=\" width=\"246\" height=\"102\">\n\n### ℹ️ Resources\n\n[Scripting in Postman](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/)\n\n[Test script examples](https://learning.postman.com/docs/writing-scripts/script-references/test-examples/)\n\n[Postman Sandbox API reference](https://learning.postman.com/docs/sending-requests/grpc/postman-sandbox-api/#writing-assertions)\n\n[Using the Collection Runner](https://learning.postman.com/docs/collections/running-collections/intro-to-collection-runs/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27174283"
+	},
+	"item": [
+		{
+			"name": "AUTHENTICATE",
+			"item": [
+				{
+					"name": "Insert Karyawan / Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Status response is True\", () => {\r",
+									"    pm.expect(response.status).to.be.true\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Message is Karyawan Updated\", () => {\r",
+									"    pm.expect(response.message).to.equal(\"Karyawan Created\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test data type of the response\", () => {\r",
+									"    pm.expect(response.data.alamat).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.dateOfBirth).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.jenisKelamin).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.nama).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.status).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.detailKaryawan).to.be.an(\"object\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"The data has all properties\", () => {\r",
+									"    pm.expect(response.data.alamat).to.eql(\"Jl Danau Sunter Utr Bl G3/19, Dki Jakarta\")\r",
+									"    pm.expect(response.data.dateOfBirth).to.eql(\"1999-05-30T00:00:00.000+00:00\")\r",
+									"    pm.expect(response.data.jenisKelamin).to.eql(\"PEREMPUAN\")\r",
+									"    pm.expect(response.data.nama).to.eql(\"Chariclea Noreen\")\r",
+									"    pm.expect(response.data.status).to.eql(\"single\")\r",
+									"    pm.expect(response.data.detailKaryawan.nik).to.eql(\"0676454945681355\")\r",
+									"    pm.expect(response.data.detailKaryawan.npwp).to.eql(\"0155416271427725\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"alamat\": \"Jl Danau Sunter Utr Bl G3/19, Dki Jakarta\",\r\n    \"dateOfBirth\": \"1999-05-30T14:34:55.275Z\",\r\n    \"jenisKelamin\": \"PEREMPUAN\",\r\n    \"nama\": \"Chariclea Noreen\",\r\n    \"status\": \"single\",\r\n    \"detailKaryawan\": {\r\n        \"nik\": \"0676454945681355\",\r\n        \"npwp\": \"0155416271427725\"\r\n    },\r\n    \"account\": {\r\n        \"username\": \"CCNoreen\",\r\n        \"password\": \"1234\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/karyawan",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"karyawan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Karyawan",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"The response has all properties\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson.status).to.be.true\r",
+									"    pm.expect(responseJson.message).to.equal(\"Login Success\")\r",
+									"    pm.expect(responseJson.data.token).to.not.be.null\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"CCNoreen\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/karyawan/login",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"karyawan",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "KARYAWAN",
+			"item": [
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Status response is True\", () => {\r",
+									"    pm.expect(response.status).to.be.true\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Message is Karyawan Updated\", () => {\r",
+									"    pm.expect(response.message).to.equal(\"Karyawan Updated\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test data type of the response\", () => {\r",
+									"    pm.expect(response.data.alamat).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.dateOfBirth).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.jenisKelamin).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.nama).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.status).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.detailKaryawan).to.be.an(\"object\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"The data has all properties\", () => {\r",
+									"    pm.expect(response.data.alamat).to.eql(\"Jl Air Panas Penatahan Penebel, Bali\")\r",
+									"    pm.expect(response.data.dateOfBirth).to.eql(\"1999-05-30T14:34:55.275+00:00\")\r",
+									"    pm.expect(response.data.jenisKelamin).to.eql(\"PEREMPUAN\")\r",
+									"    pm.expect(response.data.nama).to.eql(\"Chariclea Noreen\")\r",
+									"    pm.expect(response.data.status).to.eql(\"married\")\r",
+									"    pm.expect(response.data.detailKaryawan.nik).to.eql(\"4231001279102121\")\r",
+									"    pm.expect(response.data.detailKaryawan.npwp).to.eql(\"2631539491734943\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"alamat\": \"Jl Air Panas Penatahan Penebel, Bali\",\r\n    \"dateOfBirth\": \"1999-05-30T14:34:55.275Z\",\r\n    \"jenisKelamin\": \"PEREMPUAN\",\r\n    \"nama\": \"Chariclea Noreen\",\r\n    \"status\": \"married\",\r\n    \"detailKaryawan\": {\r\n        \"nik\": \"4231001279102121\",\r\n        \"npwp\": \"2631539491734943\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/karyawan/{{KARYAWANID}}",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"karyawan",
+								"{{KARYAWANID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Status response is True\", () => {\r",
+									"    pm.expect(response.status).to.be.true\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Message is Karyawan Found\", () => {\r",
+									"    pm.expect(response.message).to.equal(\"Karyawan Found\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test data type of the response\", () => {\r",
+									"    pm.expect(response.data).to.be.an(\"array\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASEURL}}/karyawan/search?nama=Chariclea Noreen",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"karyawan",
+								"search"
+							],
+							"query": [
+								{
+									"key": "nama",
+									"value": "Chariclea Noreen"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Status response is True\", () => {\r",
+									"    pm.expect(response.status).to.be.true\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Message is Karyawan Found\", () => {\r",
+									"    pm.expect(response.message).to.equal(\"Karyawan Found\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test data type of the response\", () => {\r",
+									"    pm.expect(response.data.alamat).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.dateOfBirth).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.jenisKelamin).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.nama).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.status).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.detailKaryawan).to.be.an(\"object\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"The data has all properties\", () => {\r",
+									"    pm.expect(response.data.alamat).to.eql(\"Jl Air Panas Penatahan Penebel, Bali\")\r",
+									"    pm.expect(response.data.dateOfBirth).to.eql(\"1999-05-30T14:34:55.275+00:00\")\r",
+									"    pm.expect(response.data.jenisKelamin).to.eql(\"PEREMPUAN\")\r",
+									"    pm.expect(response.data.nama).to.eql(\"Chariclea Noreen\")\r",
+									"    pm.expect(response.data.status).to.eql(\"married\")\r",
+									"    pm.expect(response.data.detailKaryawan.nik).to.eql(\"4231001279102121\")\r",
+									"    pm.expect(response.data.detailKaryawan.npwp).to.eql(\"2631539491734943\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASEURL}}/karyawan/{{KARYAWANID}}",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"karyawan",
+								"{{KARYAWANID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const generateRandomNumber = (digits) => {",
+							"    const min = Math.pow(10, digits - 1)",
+							"    const max = Math.pow(10, digits) - 1",
+							"    return Math.floor(Math.random() * (max - min + 1)) + min",
+							"}",
+							"",
+							"const gender = [\"LAKI_LAKI\", \"PEREMPUAN\"];",
+							"const generateRandomGender = gender[Math.floor(Math.random() * gender.length)];",
+							"",
+							"const generateRandomDate = (start, end) => {",
+							"    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))",
+							"}",
+							"",
+							"pm.variables.set(\"randomDate\", generateRandomDate(new Date(1980, 1, 1), new Date()).toISOString());",
+							"pm.variables.set(\"randomGender\", generateRandomGender);",
+							"pm.variables.set('randomNumber', generateRandomNumber(16).toString())"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "TRAINING",
+			"item": [
+				{
+					"name": "Insert",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Status response is True\", () => {\r",
+									"    pm.expect(response.status).to.be.true\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message is Training Updated\", () => {\r",
+									"    pm.expect(response.message).to.equal(\"Training Created\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test data type of the response\", () => {\r",
+									"    pm.expect(response.data.namaPengajar).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.tema).to.be.a(\"string\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"The data has all properties\", () => {\r",
+									"    pm.expect(response.data.namaPengajar).to.eql(\"Annika Augusts Davison\")\r",
+									"    pm.expect(response.data.tema).to.eql(\"Pemrogramman\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"namaPengajar\": \"Annika Augusts Davison\",\r\n    \"tema\": \"Pemrogramman\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/training",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"training"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Status response is True\", () => {\r",
+									"    pm.expect(response.status).to.be.true\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Message is Training Updated\", () => {\r",
+									"    pm.expect(response.message).to.equal(\"Training Updated\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test data type of the response\", () => {\r",
+									"    pm.expect(response.data.namaPengajar).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.tema).to.be.a(\"string\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"The data has all properties\", () => {\r",
+									"    pm.expect(response.data.namaPengajar).to.eql(\"Somporn Victorianus Wardrobe\")\r",
+									"    pm.expect(response.data.tema).to.eql(\"Database Design\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"namaPengajar\": \"Somporn Victorianus Wardrobe\",\r\n    \"tema\": \"Database Design\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASEURL}}/training/{{TRAININGID}}",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"training",
+								"{{TRAININGID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Status response is True\", () => {\r",
+									"    pm.expect(response.status).to.be.true\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Message is Training Found\", () => {\r",
+									"    pm.expect(response.message).to.equal(\"Training Found\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test data type of the response\", () => {\r",
+									"    pm.expect(response.data).to.be.an(\"array\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASEURL}}/training/search?namaPengajar=Somporn Victorianus Wardrobe",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"training",
+								"search"
+							],
+							"query": [
+								{
+									"key": "namaPengajar",
+									"value": "Somporn Victorianus Wardrobe"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Status response is True\", () => {\r",
+									"    pm.expect(response.status).to.be.true\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Message is Training Found\", () => {\r",
+									"    pm.expect(response.message).to.equal(\"Training Found\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test data type of the response\", () => {\r",
+									"    pm.expect(response.data.namaPengajar).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.tema).to.be.a(\"string\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"The data has all properties\", () => {\r",
+									"    pm.expect(response.data.namaPengajar).to.eql(\"Somporn Victorianus Wardrobe\")\r",
+									"    pm.expect(response.data.tema).to.eql(\"Database Design\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASEURL}}/training/{{TRAININGID}}",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"training",
+								"{{TRAININGID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TRAINING KARYAWAN",
+			"item": [
+				{
+					"name": "Insert",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 201\", () => {\r",
+									"    pm.response.to.have.status(201)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Status response is True\", () => {\r",
+									"    pm.expect(response.status).to.be.true\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Message is Karyawan training created\", () => {\r",
+									"    pm.expect(response.message).to.equal(\"Karyawan training created\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test type of the response\", () => {\r",
+									"    pm.expect(response.data.id).to.be.a(\"number\")\r",
+									"    pm.expect(response.data.karyawan).to.be.a(\"object\")\r",
+									"    pm.expect(response.data.training).to.be.a(\"object\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response karyawan id equal input\", () => {\r",
+									"    pm.expect(parseInt(response.data.karyawan.id)).to.equal(parseInt(pm.variables.get(\"KARYAWANID\")))\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response training id equal input\", () => {\r",
+									"    pm.expect(parseInt(response.data.training.id)).to.equal(parseInt(pm.variables.get(\"TRAININGID\")))\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test karyawan data type of the response\", () => {\r",
+									"    pm.expect(response.data.karyawan.alamat).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.karyawan.dateOfBirth).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.karyawan.jenisKelamin).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.karyawan.nama).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.karyawan.status).to.be.a(\"string\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"The karyawan data has all properties\", () => {\r",
+									"    pm.expect(response.data.karyawan.alamat).to.eql(\"Jl Air Panas Penatahan Penebel, Bali\")\r",
+									"    pm.expect(response.data.karyawan.dateOfBirth).to.eql(\"1999-05-30T14:34:55.275+00:00\")\r",
+									"    pm.expect(response.data.karyawan.jenisKelamin).to.eql(\"PEREMPUAN\")\r",
+									"    pm.expect(response.data.karyawan.nama).to.eql(\"Chariclea Noreen\")\r",
+									"    pm.expect(response.data.karyawan.status).to.eql(\"married\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test training data type of the response\", () => {\r",
+									"    pm.expect(response.data.training.namaPengajar).to.be.a(\"string\")\r",
+									"    pm.expect(response.data.training.tema).to.be.a(\"string\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"The training data has all properties\", () => {\r",
+									"    pm.expect(response.data.training.namaPengajar).to.eql(\"Somporn Victorianus Wardrobe\")\r",
+									"    pm.expect(response.data.training.tema).to.eql(\"Database Design\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASEURL}}/training-karyawan/{{KARYAWANID}}/{{TRAININGID}}",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"training-karyawan",
+								"{{KARYAWANID}}",
+								"{{TRAININGID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Status response is True\", () => {\r",
+									"    pm.expect(response.status).to.be.true\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Message is Karyawan training found\", () => {\r",
+									"    pm.expect(response.message).to.equal(\"Karyawan training found\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test data type of the response\", () => {\r",
+									"    pm.expect(response.data).to.be.an(\"array\")\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASEURL}}/training-karyawan/search?nama-karyawan=Chariclea Noreen&nama-pengajar=Somporn Victorianus Wardrobe&tema=Database Design&page=0&size=3",
+							"host": [
+								"{{BASEURL}}"
+							],
+							"path": [
+								"training-karyawan",
+								"search"
+							],
+							"query": [
+								{
+									"key": "nama-karyawan",
+									"value": "Chariclea Noreen"
+								},
+								{
+									"key": "nama-pengajar",
+									"value": "Somporn Victorianus Wardrobe"
+								},
+								{
+									"key": "tema",
+									"value": "Database Design"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDQ05vcmVlbiIsImlhdCI6MTY4NTUwOTI1MCwiZXhwIjoxNjg1NTk1NjUwfQ.YwKTOqMrGZoRV4JmNjj3IAF3UJsb0lAMCaGFwHoCnultmSccSP5tXCi6prhFCui6CfU4e6LhkvH1mRbWCjkszA",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASEURL",
+			"value": "https://aeon-spring-boot-production.up.railway.app/api/v1"
+		},
+		{
+			"key": "KARYAWANID",
+			"value": "8",
+			"type": "string"
+		},
+		{
+			"key": "TRAININGID",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
